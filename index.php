@@ -5,13 +5,9 @@
 
 	spl_autoload_register("carregaClasse");
 
-	$fatura = new Fatura();
+	$compra = new Compra(3000,"Sao Paulo");
 
-	$fatura->setValorMensal(1000);
+	$calculadora = new CalculadoraDePrecos(new TabelaDePrecoPadrao, new Frete());
 
-	$gerador = new GeradorNotaFiscal();
-	$gerador->addAcao(new EnviadorDeEmail());
-	$gerador->addAcao(new NotaFiscalDao());
-
-	$gerador->gera($fatura);
+	echo $calculadora->calcula($compra);
 	
