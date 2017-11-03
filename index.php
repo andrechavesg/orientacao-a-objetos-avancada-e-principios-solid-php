@@ -1,12 +1,17 @@
 <?php
-	function carregaClasse($classe){
+	function carregaClasse($classe) {
 		require $classe.".php";
 	}
 
 	spl_autoload_register("carregaClasse");
 
-	$dev = new Funcionario(new Desenvolvedor(new DezOuVintePorcento()),3100);
+	$fatura = new Fatura();
 
-	$calculadora = new CalculadoraDeSalario();
+	$fatura->setValorMensal(1000);
 
-	echo $calculadora->calcula($dev);
+	$gerador = new GeradorNotaFiscal();
+	$gerador->addAcao(new EnviadorDeEmail());
+	$gerador->addAcao(new NotaFiscalDao());
+
+	$gerador->gera($fatura);
+	
