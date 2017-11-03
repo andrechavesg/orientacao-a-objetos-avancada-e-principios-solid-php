@@ -1,13 +1,17 @@
 <?php
-	function carregaClasse($classe) {
+	function carregaClasse($classe){
 		require $classe.".php";
 	}
 
 	spl_autoload_register("carregaClasse");
 
-	$compra = new Compra(3000,"Sao Paulo");
+	$boletos = array();
+	$boletos[] = new Boleto(150.0);
+	$boletos[] = new Boleto(350.0);
 
-	$calculadora = new CalculadoraDePrecos(new TabelaDePrecoPadrao, new Frete());
+	$fatura = new Fatura("Renan",500);
 
-	echo $calculadora->calcula($compra);
+	$processador = new ProcessadorDeBoletos();
+	$pagou = $processador->processa($boletos,$fatura);
 	
+	echo  $pagou != 0 ? "Pagou!" : "Não pagou!";
